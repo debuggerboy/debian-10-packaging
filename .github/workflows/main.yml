@@ -3,6 +3,12 @@ on:
     branches:
       - main
 
+env:
+  APP_NAME: 'sample-deb'
+  MAINTAINER: 'Debuggerboy <debuggerboy@gmail.com>'
+  VERSION: '0.0.1'
+  DESC: 'Sample Debian 10 pacakage'
+
 jobs:
   build-artifact:
     runs-on: ${{ matrix.os }}
@@ -27,10 +33,14 @@ jobs:
           sed -e "s/^# deb-src/deb-src/g" /etc/apt/sources.list
           cat /etc/apt/sources.list
           
-      - uses: singingwolfboy/build-dpkg-buster@v1
-        id: build
+      - uses: jiro4989/build-deb-action@v2
         with:
-          args: --unsigned-source --unsigned-changes
+          package: ${{ env.APP_NAME }}
+          package_root: .
+          maintainer: ${{ env.MAINTAINER }}
+          version: ${{ env.VERSION }}
+          arch: 'amd64'
+          desc: '${{ env.DESC }}'
 
       - name: Listing directory contents
         run: |
