@@ -15,6 +15,7 @@ jobs:
       
       - name: Listing directory contents
         run: |
+          sed -e "s/^# deb-src/deb-src/g" /etc/apt/sources.list
           cat /etc/apt/sources.list
 
   build-linux-packages:
