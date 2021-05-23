@@ -36,6 +36,10 @@ jobs:
       - name: Write upload_url to file
         run: echo '${{ steps.create-release.outputs.upload_url }}' > upload_url.txt
         
+      - name: copying the deb files
+        run: |
+          cat upload_url.txt
+        
       - uses: actions/upload-artifact@v2
         with:
           name: create-release
