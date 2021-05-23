@@ -12,6 +12,10 @@ jobs:
           - ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      
+      - name: Listing directory contents
+        run: |
+          cat /etc/apt/sources.list
 
   build-linux-packages:
     runs-on: ubuntu-latest
