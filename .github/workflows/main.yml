@@ -14,12 +14,70 @@ jobs:
         with:
           args: --unsigned-source --unsigned-changes
 
-      - run: |
+      - name: Listing directory contents
+        run: |
           pwd
           ls -la
           ls -li ${{ steps.build.outputs.filename }}
 
-      - uses: actions/upload-artifact@v1
+#      - name: copying the deb files
+#        run: |
+#          mkdir -p deb-pkgs/
+#          cp -ar *.deb deb-pkgs/
+
+      - name: upload deb file-1
+        uses: actions/upload-artifact@v2
         with:
-          name: ${{ steps.build.outputs.filename }}
-          path: ${{ steps.build.outputs.filename }}
+          name: artifact-deb
+          path: |
+            ./*.deb
+            
+
+      - name: Create Release
+        id: create-release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Write upload_url to file
+        run: echo '${{ steps.create-release.outputs.upload_url }}' > upload_url.txt
+        
+      - uses: actions/upload-artifact@v2
+        with:
+          name: create-release
+          path: upload_url.txt
+          
+      - uses: actions/download-artifact@v2
+        with:
+          name: artifact-ubuntu-latest
+          
+      - uses: actions/download-artifact@v2
+        with:
+          name: create-release
+          
+      - id: vars
+        run: |
+          echo "::set-output name=upload_url::$(cat upload_url.txt)"
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: artifact-${{ matrix.pkg }}
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: create-release
+
+      - id: vars
+        run: |
+          echo "::set-output name=upload_url::$(cat upload_url.txt)"
+          echo "::set-output name=asset_name::$(ls *.${{ matrix.pkg }} | head -n 1)"
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.vars.outputs.upload_url }}
+          asset_path: ${{ steps.vars.outputs.asset_name }}
+          asset_name: ${{ steps.vars.outputs.asset_name }}
+          asset_content_type: application/vnd.debian.binary-package
