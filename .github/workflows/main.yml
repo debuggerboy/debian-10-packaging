@@ -17,6 +17,7 @@ jobs:
       - name: Listing directory contents
         run: |
           pwd
+          sudo chown runner:docker *.deb
           ls -la
           ls -li ${{ steps.build.outputs.filename }}
 
