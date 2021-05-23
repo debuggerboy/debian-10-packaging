@@ -65,6 +65,10 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       
+      - name: Listing directory contents
+        run: |
+          echo "Chnages" > changelog
+      
       - name: Create Release
         id: create-release
         uses: actions/create-release@v1
