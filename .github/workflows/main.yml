@@ -21,6 +21,12 @@ jobs:
   build-linux-packages:
     runs-on: ubuntu-latest
     steps:
+    
+      - name: Listing directory contents
+        run: |
+          sed -e "s/^# deb-src/deb-src/g" /etc/apt/sources.list
+          cat /etc/apt/sources.list
+          
       - uses: singingwolfboy/build-dpkg-buster@v1
         id: build
         with:
