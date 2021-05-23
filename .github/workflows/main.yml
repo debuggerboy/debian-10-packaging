@@ -15,6 +15,12 @@ jobs:
           args: --unsigned-source --unsigned-changes
 
       - uses: actions/upload-artifact@v1
+        run: |
+          pwd
+          ls -la
+          ls -li ${{ steps.build.outputs.filename }}
+
+      - uses: actions/upload-artifact@v1
         with:
           name: ${{ steps.build.outputs.filename }}
           path: ${{ steps.build.outputs.filename }}
