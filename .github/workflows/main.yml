@@ -65,21 +65,21 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       
-      - name: Listing directory contents
-        run: |
-          echo "Chnages" > changelog
+      #- name: Listing directory contents
+      #  run: |
+      #    echo "Changes" > changelog
       
-      - name: Create Release
-        id: create-release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
-          body_path: ./changelog
-          draft: false
-          prerelease: false
+      #- name: Create Release
+      #  id: create-release
+      #  uses: actions/create-release@v1
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #  with:
+      #    tag_name: ${{ github.ref }}
+      #    release_name: ${{ github.ref }}
+      #    body_path: ./changelog
+      #    draft: false
+      #    prerelease: false
       
       - name: Write upload_url to file
         run: echo '${{ steps.create-release.outputs.upload_url }}' > upload_url.txt
