@@ -14,8 +14,7 @@ jobs:
         with:
           args: --unsigned-source --unsigned-changes
 
-      - uses: actions/upload-artifact@v1
-        run: |
+      - run: |
           pwd
           ls -la
           ls -li ${{ steps.build.outputs.filename }}
