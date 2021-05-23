@@ -1,0 +1,15 @@
+Source: sample-deb
+Section: utils
+Priority: extra
+Maintainer: Debuggerboy <debuggerboy@gmail.com>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.3
+Vcs-Git: git@github.com:debuggerboy/debian-10-packaging.git
+Vcs-Browser: https://github.com/debuggerboy/debian-10-packaging
+
+Package: sample-deb
+Section: utils
+Priority: extra
+Architecture: amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Sample Debian 10 pacakage
